@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="it" data-theme="terracotta">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>B&amp;B Angelini — Lucca · Anteprima</title>
+<meta name="robots" content="noindex" />
+<style>
+  :root{
+    --bg:#fbf7f1; --card:#ffffff; --ink:#241d16; --muted:#7a6f63; --line:#ece3d6;
+    --accent:#b5622e; --accent-soft:#f2e2d5; --gold:#c99a4e; --hero-tint:rgba(30,18,10,.34);
+    --radius:16px; --font-head:"Cormorant Garamond",Georgia,serif; --font-body:"Inter",-apple-system,"Segoe UI",sans-serif;
+  }
+  html[data-theme="verde"]{
+    --bg:#f6f8f4; --card:#ffffff; --ink:#1e2620; --muted:#6c7970; --line:#e2ece1;
+    --accent:#4e7a5b; --accent-soft:#e2efe4; --gold:#c2a24e; --hero-tint:rgba(16,28,20,.36);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--font-body);background:var(--bg);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+  h1,h2,h3{font-family:var(--font-head);font-weight:600;line-height:1.1;letter-spacing:-.01em}
+  img{display:block;width:100%;height:100%;object-fit:cover}
+  a{color:inherit}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+  /* demo bar */
+  .demobar{background:var(--ink);color:#fff;font-size:13px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:center;padding:9px 16px;text-align:center}
+  .demobar b{color:var(--gold);font-weight:600}
+  .demobar .ctrls{display:flex;gap:8px;align-items:center}
+  .chip{border:1px solid rgba(255,255,255,.28);background:transparent;color:#fff;border-radius:999px;padding:4px 12px;font-size:12.5px;cursor:pointer;font-family:inherit;transition:.15s}
+  .chip:hover{border-color:var(--gold)}
+  .chip.on{background:var(--gold);border-color:var(--gold);color:#231a0c;font-weight:600}
+
+  /* nav */
+  header.nav{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .nav .row{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .brand{font-family:var(--font-head);font-size:24px;font-weight:600;letter-spacing:.02em}
+  .brand small{display:block;font-family:var(--font-body);font-size:10.5px;letter-spacing:.32em;text-transform:uppercase;color:var(--muted);margin-top:-2px}
+  nav.links{display:flex;gap:26px;font-size:14px}
+  nav.links a{text-decoration:none;color:var(--muted);transition:.15s}
+  nav.links a:hover{color:var(--accent)}
+  .btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;padding:11px 20px;border-radius:999px;font-size:14px;font-weight:500;border:none;cursor:pointer;font-family:inherit;transition:.18s}
+  .btn:hover{filter:brightness(1.06)}
+  .btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+
+  /* hero */
+  .hero{position:relative;min-height:80vh;display:flex;align-items:flex-end;color:#fff}
+  .hero .bg{position:absolute;inset:0}
+  .hero .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.15),var(--hero-tint) 55%,rgba(20,12,6,.72))}
+  .hero .inner{position:relative;z-index:2;padding:0 0 62px}
+  .kicker{font-size:12.5px;letter-spacing:.34em;text-transform:uppercase;color:rgba(255,255,255,.85);margin-bottom:16px}
+  .hero h1{font-size:clamp(40px,7vw,74px);max-width:16ch;text-shadow:0 2px 30px rgba(0,0,0,.3)}
+  .hero p.sub{font-size:clamp(16px,2.2vw,21px);max-width:44ch;margin-top:18px;color:rgba(255,255,255,.92)}
+  .hero .cta{margin-top:28px;display:flex;gap:12px;flex-wrap:wrap}
+  .hero .btn.ghost{color:#fff;border-color:rgba(255,255,255,.6)}
+
+  section{padding:82px 0}
+  .eyebrow{font-size:12.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);font-weight:600;margin-bottom:14px}
+  .lead{font-size:clamp(26px,3.4vw,40px);max-width:20ch}
+  .two{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+  .two .txt p{color:var(--muted);margin-top:16px;font-size:16.5px;max-width:46ch}
+  .frame{border-radius:var(--radius);overflow:hidden;aspect-ratio:4/5;box-shadow:0 30px 60px -30px rgba(60,35,15,.4)}
+  .facts{display:flex;gap:34px;margin-top:26px;flex-wrap:wrap}
+  .facts div{}
+  .facts .n{font-family:var(--font-head);font-size:34px;color:var(--accent);line-height:1}
+  .facts .l{font-size:13px;color:var(--muted);margin-top:4px}
+
+  /* rooms */
+  .rooms{background:var(--card);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .rooms .head{display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:14px;margin-bottom:34px}
+  .grid5{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .room{border-radius:var(--radius);overflow:hidden;background:var(--bg);border:1px solid var(--line)}
+  .room .ph{aspect-ratio:4/3;overflow:hidden}
+  .room .ph img{transition:transform .6s ease}
+  .room:hover .ph img{transform:scale(1.05)}
+  .room .b{padding:16px 18px 20px}
+  .room .b h3{font-size:22px}
+  .room .b span{font-size:13.5px;color:var(--muted)}
+
+  /* assistant feature */
+  .assist{background:linear-gradient(160deg,var(--accent-soft),transparent)}
+  .assist .two{gap:48px}
+  .badge-ai{display:inline-flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:12.5px;color:var(--accent);font-weight:600}
+  .dot{width:8px;height:8px;border-radius:50%;background:#39b36a;box-shadow:0 0 0 3px rgba(57,179,106,.2)}
+  .chat{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:18px;box-shadow:0 40px 70px -34px rgba(60,35,15,.45);max-width:420px;margin-left:auto}
+  .chat .top{display:flex;align-items:center;gap:10px;padding:2px 4px 14px;border-bottom:1px solid var(--line);margin-bottom:12px}
+  .chat .av{width:38px;height:38px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-size:19px}
+  .chat .top b{font-size:14.5px}.chat .top small{display:block;color:var(--muted);font-size:11.5px}
+  .msg{max-width:82%;padding:10px 14px;border-radius:16px;font-size:14px;margin:9px 0;opacity:0;transform:translateY(6px);animation:pop .4s forwards}
+  .msg.g{background:var(--bg);border:1px solid var(--line);border-bottom-left-radius:5px}
+  .msg.a{background:var(--accent);color:#fff;margin-left:auto;border-bottom-right-radius:5px}
+  .msg .tag{display:block;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.6;margin-bottom:3px}
+  @keyframes pop{to{opacity:1;transform:none}}
+  .replay{margin-top:12px;font-size:13px;color:var(--accent);background:none;border:none;cursor:pointer;font-family:inherit;text-decoration:underline}
+
+  /* info strip */
+  .info .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+  .info .it{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+  .info .it h3{font-size:19px;margin-bottom:6px}
+  .info .it p{font-size:14px;color:var(--muted)}
+
+  /* footer */
+  footer.ft{background:var(--ink);color:#e9e0d4;padding:60px 0 40px}
+  footer.ft .cols{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px}
+  footer.ft .brand{color:#fff}
+  footer.ft a{color:#cdbfae;text-decoration:none;font-size:14px;display:block;margin:8px 0}
+  footer.ft p{color:#9d9184;font-size:14px;margin-top:10px}
+  .madeby{border-top:1px solid rgba(255,255,255,.12);margin-top:40px;padding-top:22px;font-size:12.5px;color:#9d9184;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+  .madeby b{color:var(--gold)}
+
+  @media(max-width:860px){
+    .two{grid-template-columns:1fr;gap:32px}.grid5{grid-template-columns:1fr 1fr}
+    .info .grid{grid-template-columns:1fr 1fr}.chat{margin:0 auto}
+    footer.ft .cols{grid-template-columns:1fr}
+    nav.links{display:none}
+  }
+  @media(max-width:520px){.grid5{grid-template-columns:1fr}.info .grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="demobar">
+  <span data-t="demo">Anteprima costruita da Domani AI — non è ancora online, ogni dettaglio è personalizzabile.</span>
+  <span class="ctrls">
+    <span style="opacity:.6" data-t="style">Stile:</span>
+    <button class="chip on" onclick="setTheme('terracotta',this)">Terracotta</button>
+    <button class="chip" onclick="setTheme('verde',this)">Verde</button>
+    <span style="width:1px;height:16px;background:rgba(255,255,255,.25)"></span>
+    <button class="chip on" onclick="setLang('it',this)">IT</button>
+    <button class="chip" onclick="setLang('en',this)">EN</button>
+  </span>
+</div>
+
+<header class="nav">
+  <div class="wrap row">
+    <div class="brand">B&amp;B Angelini<small>Lucca · Toscana</small></div>
+    <nav class="links">
+      <a data-t="n_home">Home</a><a data-t="n_rooms">Le Camere</a>
+      <a data-t="n_assist">Assistente</a><a data-t="n_contact">Contatti</a>
+    </nav>
+    <a class="btn" data-t="cta_book">Prenota diretto</a>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="bg"><img src="assets/esterno.jpg" alt="B&B Angelini, Lucca" /></div>
+  <div class="wrap inner">
+    <div class="kicker" data-t="hero_k">La casa di famiglia dal 1911</div>
+    <h1 data-t="hero_h">A due passi dalle mura di Lucca.</h1>
+    <p class="sub" data-t="hero_s">Cinque camere nel vero stile toscano — soffitti in legno, pavimenti in cotto — a 600 metri dal centro storico.</p>
+    <div class="cta">
+      <a class="btn" data-t="cta_book2">Prenota senza commissioni</a>
+      <a class="btn ghost" data-t="cta_rooms">Scopri le camere</a>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="wrap two">
+    <div class="txt">
+      <div class="eyebrow" data-t="ab_e">La struttura</div>
+      <h2 class="lead" data-t="ab_h">Una casa vera, non un albergo qualunque.</h2>
+      <p data-t="ab_p1">La grande casa costruita dai bisnonni nel 1911 accoglie oggi il B&amp;B Angelini, a 600 metri dal centro storico di Lucca e recentemente ristrutturata.</p>
+      <p data-t="ab_p2">Ha mantenuto intatto lo stile tipico toscano: soffitti in legno con travicelli e mezzane, pavimenti in cotto e graniglia. Camere ampie e luminose, ognuna con bagno privato.</p>
+      <div class="facts">
+        <div><div class="n">1911</div><div class="l" data-t="f1">la casa di famiglia</div></div>
+        <div><div class="n">600 m</div><div class="l" data-t="f2">dal centro storico</div></div>
+        <div><div class="n">5</div><div class="l" data-t="f3">camere con bagno privato</div></div>
+      </div>
+    </div>
+    <div class="frame"><img src="assets/porta.jpg" alt="Ingresso toscano" /></div>
+  </div>
+</section>
+
+<section class="rooms">
+  <div class="wrap">
+    <div class="head">
+      <div>
+        <div class="eyebrow" data-t="rm_e">Le camere</div>
+        <h2 class="lead" data-t="rm_h">Cinque camere, cinque colori.</h2>
+      </div>
+      <p style="color:var(--muted);max-width:32ch" data-t="rm_s">Doppie, triple e quadruple — tutte ampie, luminose e con bagno privato.</p>
+    </div>
+    <div class="grid5">
+      <div class="room"><div class="ph"><img src="assets/camera-blu.jpg" alt="Camera Blu"></div><div class="b"><h3>Camera Blu</h3><span data-t="r_dbl">Matrimoniale · bagno privato</span></div></div>
+      <div class="room"><div class="ph"><img src="assets/camera-iris.jpg" alt="Camera Iris"></div><div class="b"><h3>Camera Iris</h3><span data-t="r_trp">Tripla · bagno privato</span></div></div>
+      <div class="room"><div class="ph"><img src="assets/camera-pesca.jpg" alt="Camera Pesca"></div><div class="b"><h3>Camera Pesca</h3><span data-t="r_dbl">Matrimoniale · bagno privato</span></div></div>
+      <div class="room"><div class="ph"><img src="assets/camera-rosa.jpg" alt="Camera Rosa"></div><div class="b"><h3>Camera Rosa</h3><span data-t="r_qdr">Quadrupla · bagno privato</span></div></div>
+      <div class="room"><div class="ph"><img src="assets/camera-verde.jpg" alt="Camera Verde"></div><div class="b"><h3>Camera Verde</h3><span data-t="r_dbl">Matrimoniale · bagno privato</span></div></div>
+      <div class="room"><div class="ph"><img src="assets/sala.jpg" alt="Spazi comuni"></div><div class="b"><h3 data-t="r_common_h">Spazi comuni</h3><span data-t="r_common">Accoglienza e stile toscano</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="assist" id="assist">
+  <div class="wrap two">
+    <div class="txt">
+      <span class="badge-ai"><span class="dot"></span><span data-t="ai_badge">Assistente attivo 24/7</span></span>
+      <h2 class="lead" style="margin-top:16px" data-t="ai_h">L'ospite scrive alle 23. Qualcuno risponde subito.</h2>
+      <p style="color:var(--muted);margin-top:16px;max-width:44ch" data-t="ai_p1">Un ospite anglofono chiede una camera a tarda sera. Il vostro assistente risponde in un istante, nella sua lingua, con disponibilità reali — e trasforma la richiesta in una prenotazione diretta, senza commissioni a nessuna piattaforma.</p>
+      <p style="color:var(--muted);margin-top:14px;max-width:44ch" data-t="ai_p2">Italiano, inglese, tedesco, francese. Anche mentre dormite.</p>
+    </div>
+    <div>
+      <div class="chat" id="chat">
+        <div class="top">
+          <div class="av">A</div>
+          <div><b>Angelini · Assistant</b><small data-t="ai_online">online · risponde in pochi secondi</small></div>
+        </div>
+        <div id="thread"></div>
+        <button class="replay" onclick="playChat()" data-t="ai_replay">↻ Rivedi la conversazione</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="info">
+  <div class="wrap">
+    <div class="eyebrow" data-t="in_e">Servizi</div>
+    <h2 class="lead" style="margin-bottom:34px" data-t="in_h">Tutto quello che serve, incluso.</h2>
+    <div class="grid">
+      <div class="it"><h3 data-t="s1_h">WiFi gratuito</h3><p data-t="s1_p">Connessione libera in tutta la struttura.</p></div>
+      <div class="it"><h3 data-t="s2_h">Colazione inclusa</h3><p data-t="s2_p">Servita in un bar convenzionato a due passi dal B&amp;B.</p></div>
+      <div class="it"><h3 data-t="s3_h">Parcheggio riservato</h3><p data-t="s3_p">Posti dedicati proprio davanti alla struttura.</p></div>
+      <div class="it"><h3 data-t="s4_h">Aria condizionata</h3><p data-t="s4_p">Camere fresche e pet-friendly, deposito bagagli disponibile.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer class="ft" id="contact">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <div class="brand">B&amp;B Angelini</div>
+        <p data-t="ft_tag">La casa di famiglia dal 1911, a 600 metri dalle mura di Lucca.</p>
+      </div>
+      <div>
+        <div class="eyebrow" style="color:var(--gold)" data-t="ft_contact">Contatti</div>
+        <a href="tel:+393280521794">+39 328 052 1794</a>
+        <a href="mailto:info@bbangelini.net">info@bbangelini.net</a>
+        <a>Via Stefano Tofanelli, 151 — 55100 Lucca</a>
+      </div>
+      <div>
+        <div class="eyebrow" style="color:var(--gold)" data-t="ft_book">Prenota</div>
+        <a data-t="ft_direct">Prenotazione diretta</a>
+        <a data-t="ft_assist2">Assistente 24/7</a>
+        <a data-t="ft_lang">Italiano · English · Deutsch</a>
+      </div>
+    </div>
+    <div class="madeby">
+      <span>© B&amp;B Angelini · Lucca</span>
+      <span data-t="made"><b>Anteprima</b> realizzata da Domani AI · sito + assistente KI · ogni dettaglio è personalizzabile</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function setTheme(t,el){document.documentElement.setAttribute('data-theme',t);document.querySelectorAll('.demobar .chip').forEach(c=>{if(c.textContent==='Terracotta'||c.textContent==='Verde')c.classList.remove('on')});el.classList.add('on');}
+  const CHAT={
+    it:[
+      {who:'g',tag:'Ospite · 23:14',txt:"Buonasera, avete una camera matrimoniale per il prossimo weekend? Il parcheggio è incluso?"},
+      {who:'a',tag:'Assistente',txt:"Buonasera! Sì: la Camera Blu (matrimoniale) è libera da venerdì a domenica. Bagno privato, aria condizionata e parcheggio riservato proprio davanti, incluso."},
+      {who:'a',tag:'Assistente',txt:"La colazione è inclusa, servita nel bar convenzionato a due passi. Vuole che la blocchi? Posso confermarle la prenotazione diretta ora — senza commissioni."},
+      {who:'g',tag:'Ospite · 23:15',txt:"Perfetto, la prendo!"}
+    ],
+    en:[
+      {who:'g',tag:'Guest · 11:14 PM',txt:"Good evening, do you have a double room for next weekend? Is parking included?"},
+      {who:'a',tag:'Assistant',txt:"Good evening! Yes — our Camera Blu (double) is free Friday to Sunday. Private bathroom, air-conditioning and reserved parking right in front, included."},
+      {who:'a',tag:'Assistant',txt:"Breakfast is included, served at our partner bar two steps away. Shall I hold it for you? I can confirm a direct booking right now — no commission."},
+      {who:'g',tag:'Guest · 11:15 PM',txt:"Perfect, I'll take it!"}
+    ]
+  };
+  let curLang='it';
+  function playChat(){
+    const th=document.getElementById('thread');th.innerHTML='';
+    const arr=CHAT[curLang];let i=0;
+    (function next(){
+      if(i>=arr.length)return;
+      const m=arr[i];const d=document.createElement('div');
+      d.className='msg '+m.who;d.style.animationDelay='0s';
+      d.innerHTML='<span class="tag">'+m.tag+'</span>'+m.txt;
+      th.appendChild(d);i++;setTimeout(next, m.who==='a'?1100:750);
+    })();
+  }
+  const T={
+    it:{demo:"Anteprima costruita da Domani AI — non è ancora online, ogni dettaglio è personalizzabile.",style:"Stile:",n_home:"Home",n_rooms:"Le Camere",n_assist:"Assistente",n_contact:"Contatti",cta_book:"Prenota diretto",
+      hero_k:"La casa di famiglia dal 1911",hero_h:"A due passi dalle mura di Lucca.",hero_s:"Cinque camere nel vero stile toscano — soffitti in legno, pavimenti in cotto — a 600 metri dal centro storico.",cta_book2:"Prenota senza commissioni",cta_rooms:"Scopri le camere",
+      ab_e:"La struttura",ab_h:"Una casa vera, non un albergo qualunque.",ab_p1:"La grande casa costruita dai bisnonni nel 1911 accoglie oggi il B&B Angelini, a 600 metri dal centro storico di Lucca e recentemente ristrutturata.",ab_p2:"Ha mantenuto intatto lo stile tipico toscano: soffitti in legno con travicelli e mezzane, pavimenti in cotto e graniglia. Camere ampie e luminose, ognuna con bagno privato.",f1:"la casa di famiglia",f2:"dal centro storico",f3:"camere con bagno privato",
+      rm_e:"Le camere",rm_h:"Cinque camere, cinque colori.",rm_s:"Doppie, triple e quadruple — tutte ampie, luminose e con bagno privato.",r_dbl:"Matrimoniale · bagno privato",r_trp:"Tripla · bagno privato",r_qdr:"Quadrupla · bagno privato",r_common_h:"Spazi comuni",r_common:"Accoglienza e stile toscano",
+      ai_badge:"Assistente attivo 24/7",ai_h:"L'ospite scrive alle 23. Qualcuno risponde subito.",ai_p1:"Un ospite anglofono chiede una camera a tarda sera. Il vostro assistente risponde in un istante, nella sua lingua, con disponibilità reali — e trasforma la richiesta in una prenotazione diretta, senza commissioni a nessuna piattaforma.",ai_p2:"Italiano, inglese, tedesco, francese. Anche mentre dormite.",ai_online:"online · risponde in pochi secondi",ai_replay:"↻ Rivedi la conversazione",
+      in_e:"Servizi",in_h:"Tutto quello che serve, incluso.",s1_h:"WiFi gratuito",s1_p:"Connessione libera in tutta la struttura.",s2_h:"Colazione inclusa",s2_p:"Servita in un bar convenzionato a due passi dal B&B.",s3_h:"Parcheggio riservato",s3_p:"Posti dedicati proprio davanti alla struttura.",s4_h:"Aria condizionata",s4_p:"Camere fresche e pet-friendly, deposito bagagli disponibile.",
+      ft_tag:"La casa di famiglia dal 1911, a 600 metri dalle mura di Lucca.",ft_contact:"Contatti",ft_book:"Prenota",ft_direct:"Prenotazione diretta",ft_assist2:"Assistente 24/7",ft_lang:"Italiano · English · Deutsch",made:"Anteprima realizzata da Domani AI · sito + assistente KI · ogni dettaglio è personalizzabile"},
+    en:{demo:"Preview built by Domani AI — not live yet, every detail is customizable.",style:"Style:",n_home:"Home",n_rooms:"Rooms",n_assist:"Assistant",n_contact:"Contact",cta_book:"Book direct",
+      hero_k:"The family home since 1911",hero_h:"A stone's throw from Lucca's walls.",hero_s:"Five rooms in true Tuscan style — wood-beam ceilings, cotto floors — 600 metres from the historic centre.",cta_book2:"Book with no commission",cta_rooms:"Discover the rooms",
+      ab_e:"The house",ab_h:"A real home, not just another hotel.",ab_p1:"The large house built by our great-grandparents in 1911 is today the B&B Angelini — 600 metres from Lucca's historic centre and recently restored.",ab_p2:"It has kept the authentic Tuscan style intact: wood-beam ceilings, cotto and terrazzo floors. Spacious, bright rooms, each with a private bathroom.",f1:"the family home",f2:"from the old town",f3:"rooms with private bath",
+      rm_e:"The rooms",rm_h:"Five rooms, five colours.",rm_s:"Doubles, triples and quads — all spacious, bright and with a private bathroom.",r_dbl:"Double · private bath",r_trp:"Triple · private bath",r_qdr:"Quad · private bath",r_common_h:"Common areas",r_common:"Tuscan warmth & welcome",
+      ai_badge:"Assistant on 24/7",ai_h:"A guest writes at 11 PM. Someone answers at once.",ai_p1:"An English-speaking guest asks for a room late in the evening. Your assistant replies in an instant, in their language, with real availability — turning the request into a direct booking, with no commission to any platform.",ai_p2:"Italian, English, German, French. Even while you sleep.",ai_online:"online · replies in seconds",ai_replay:"↻ Replay the conversation",
+      in_e:"Services",in_h:"Everything you need, included.",s1_h:"Free WiFi",s1_p:"Open connection throughout the property.",s2_h:"Breakfast included",s2_p:"Served at a partner café two steps from the B&B.",s3_h:"Reserved parking",s3_p:"Dedicated spaces right in front of the house.",s4_h:"Air conditioning",s4_p:"Cool rooms, pet-friendly, luggage storage available.",
+      ft_tag:"The family home since 1911, 600 metres from Lucca's walls.",ft_contact:"Contact",ft_book:"Book",ft_direct:"Direct booking",ft_assist2:"24/7 assistant",ft_lang:"Italiano · English · Deutsch",made:"Preview built by Domani AI · website + AI assistant · every detail is customizable"}
+  };
+  function setLang(l,el){
+    curLang=l;document.documentElement.lang=l;
+    document.querySelectorAll('.demobar .chip').forEach(c=>{if(c.textContent==='IT'||c.textContent==='EN')c.classList.remove('on')});el.classList.add('on');
+    const d=T[l];document.querySelectorAll('[data-t]').forEach(n=>{const k=n.getAttribute('data-t');if(d[k]!=null)n.innerHTML=d[k];});
+    playChat();
+  }
+  playChat();
+</script>
+</body>
+</html>
