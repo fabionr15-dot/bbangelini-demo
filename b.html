@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>B&B Angelini — Lucca · Una casa di famiglia dal 1911</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Nunito+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#f6efe2;
+    --cream-deep:#efe4d0;
+    --paper:#fbf6ec;
+    --ochre:#c68a3e;
+    --ochre-deep:#a86d29;
+    --olive:#6b7048;
+    --olive-deep:#535838;
+    --brown:#4a3a2c;
+    --brown-soft:#7a6350;
+    --ink:#38291d;
+    --rose:#c78b7a;
+    --shadow:rgba(74,58,44,.16);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Nunito Sans',system-ui,sans-serif;
+    color:var(--ink);
+    background:var(--cream);
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif;font-weight:500;line-height:1.12;letter-spacing:-.01em}
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 26px}
+
+  /* ---------- DEMO BAR ---------- */
+  .demobar{
+    background:var(--brown);
+    color:#f0e6d6;
+    font-size:.82rem;
+    letter-spacing:.01em;
+    padding:9px 20px;
+    display:flex;align-items:center;justify-content:center;gap:18px;
+    text-align:center;
+    position:relative;z-index:60;
+    flex-wrap:wrap;
+  }
+  .demobar .dot{color:var(--ochre);font-size:1.1em;line-height:0}
+  .langtoggle{display:inline-flex;border:1px solid rgba(240,230,214,.35);border-radius:999px;overflow:hidden;flex:0 0 auto}
+  .langtoggle button{
+    background:transparent;border:none;color:#e7dccb;
+    font-family:inherit;font-size:.78rem;font-weight:700;letter-spacing:.05em;
+    padding:4px 12px;cursor:pointer;transition:.2s;
+  }
+  .langtoggle button.active{background:var(--ochre);color:#fff}
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(246,239,226,.9);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(122,99,80,.18);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:74px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand .mark{
+    width:44px;height:44px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,var(--ochre),var(--ochre-deep));
+    color:#fff;display:grid;place-items:center;
+    font-family:'Fraunces',serif;font-size:1.35rem;font-weight:600;
+    box-shadow:0 4px 14px rgba(168,109,41,.35);
+  }
+  .brand .bt{font-family:'Fraunces',serif;font-size:1.28rem;color:var(--brown);letter-spacing:.01em}
+  .brand .bs{font-size:.66rem;letter-spacing:.28em;text-transform:uppercase;color:var(--brown-soft);margin-top:2px}
+  nav.links{display:flex;gap:30px;align-items:center}
+  nav.links a{font-size:.9rem;font-weight:600;color:var(--brown);position:relative;padding:4px 0;transition:.2s}
+  nav.links a::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:2px;background:var(--ochre);transition:.25s;border-radius:2px}
+  nav.links a:hover{color:var(--ochre-deep)}
+  nav.links a:hover::after{width:100%}
+  .btn{
+    display:inline-block;font-family:'Nunito Sans',sans-serif;font-weight:700;
+    background:var(--ochre);color:#fff;
+    padding:12px 24px;border-radius:999px;font-size:.9rem;
+    box-shadow:0 6px 18px rgba(168,109,41,.32);cursor:pointer;border:none;
+    transition:.22s;letter-spacing:.01em;
+  }
+  .btn:hover{background:var(--ochre-deep);transform:translateY(-1px);box-shadow:0 9px 22px rgba(168,109,41,.4)}
+  .btn.ghost{background:transparent;color:var(--brown);border:1.5px solid var(--brown-soft);box-shadow:none}
+  .btn.ghost:hover{background:var(--brown);color:var(--paper);border-color:var(--brown)}
+  .navcta{display:flex;align-items:center;gap:16px}
+
+  /* ---------- HERO ---------- */
+  .hero{position:relative;min-height:88vh;display:flex;align-items:flex-end;overflow:hidden}
+  .hero-bg{position:absolute;inset:0}
+  .hero-bg img{width:100%;height:100%;object-fit:cover}
+  .hero-bg::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(180deg,rgba(58,41,29,.18) 0%,rgba(58,41,29,.12) 40%,rgba(58,41,29,.72) 100%)}
+  .hero-content{position:relative;z-index:2;color:#fdf8ee;padding:0 0 66px}
+  .hero-eyebrow{
+    display:inline-flex;align-items:center;gap:9px;
+    font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;
+    background:rgba(58,41,29,.42);backdrop-filter:blur(4px);
+    padding:8px 16px;border-radius:999px;border:1px solid rgba(253,248,238,.25);
+    margin-bottom:22px;
+  }
+  .hero-eyebrow .dotm{width:7px;height:7px;border-radius:50%;background:var(--ochre)}
+  .hero h1{font-size:clamp(2.6rem,6vw,4.6rem);text-shadow:0 2px 24px rgba(40,26,15,.5);max-width:16ch}
+  .hero h1 em{font-style:italic;color:#f2d9a8}
+  .hero p.lead{font-size:clamp(1.05rem,1.7vw,1.28rem);max-width:44ch;margin-top:20px;color:#f4ead9;text-shadow:0 2px 12px rgba(40,26,15,.5)}
+  .hero-actions{margin-top:30px;display:flex;gap:14px;flex-wrap:wrap}
+  .hero-actions .btn.ghost{color:#fdf8ee;border-color:rgba(253,248,238,.6)}
+  .hero-actions .btn.ghost:hover{background:#fdf8ee;color:var(--brown)}
+
+  /* ---------- WELCOME / STORY ---------- */
+  section{padding:88px 0}
+  .kicker{font-size:.78rem;letter-spacing:.24em;text-transform:uppercase;color:var(--ochre-deep);font-weight:700;margin-bottom:14px}
+  .story{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+  .story .door{position:relative}
+  .story .door img{border-radius:14px 14px 90px 14px;box-shadow:0 26px 50px -18px var(--shadow);width:100%;aspect-ratio:4/5;object-fit:cover}
+  .story .door .stamp{
+    position:absolute;bottom:-26px;left:-26px;
+    background:var(--paper);border-radius:50%;width:132px;height:132px;
+    display:grid;place-content:center;text-align:center;
+    box-shadow:0 14px 30px -8px var(--shadow);border:2px solid var(--cream-deep);
+    padding:10px;
+  }
+  .story .door .stamp .yr{font-family:'Fraunces',serif;font-size:1.9rem;color:var(--ochre-deep);line-height:1}
+  .story .door .stamp .lb{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--brown-soft);margin-top:5px}
+  .story h2{font-size:clamp(2rem,3.4vw,3rem);color:var(--brown)}
+  .story h2 em{font-style:italic;color:var(--ochre-deep)}
+  .story p{margin-top:18px;font-size:1.05rem;color:#5b4a3a}
+  .story .sig{margin-top:24px;font-family:'Fraunces',serif;font-style:italic;font-size:1.35rem;color:var(--olive-deep)}
+  .story .sig small{display:block;font-family:'Nunito Sans';font-style:normal;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--brown-soft);margin-top:4px}
+
+  /* detail chips */
+  .details{background:var(--cream-deep);border-top:1px solid rgba(122,99,80,.14);border-bottom:1px solid rgba(122,99,80,.14)}
+  .detail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:34px}
+  .detail{display:flex;gap:16px;align-items:flex-start}
+  .detail .ic{flex:0 0 auto;width:48px;height:48px;border-radius:14px;background:var(--paper);display:grid;place-items:center;box-shadow:0 6px 14px -6px var(--shadow)}
+  .detail .ic svg{width:24px;height:24px;stroke:var(--ochre-deep)}
+  .detail h4{font-family:'Fraunces',serif;font-size:1.15rem;color:var(--brown);margin-bottom:3px;font-weight:600}
+  .detail p{font-size:.92rem;color:#6b5844}
+
+  /* ---------- SALA / authenticity ---------- */
+  .authentic{display:grid;grid-template-columns:.95fr 1.05fr;gap:56px;align-items:center}
+  .authentic .imgcol img{border-radius:14px;box-shadow:0 22px 46px -20px var(--shadow);width:100%;aspect-ratio:5/4;object-fit:cover}
+  .authentic h2{font-size:clamp(1.9rem,3.2vw,2.7rem);color:var(--brown)}
+  .authentic h2 em{font-style:italic;color:var(--olive-deep)}
+  .authentic p{margin-top:16px;color:#5b4a3a}
+  .badge-award{display:inline-flex;align-items:center;gap:10px;margin-top:22px;background:var(--olive);color:#f4f1e2;padding:9px 18px;border-radius:999px;font-size:.86rem;font-weight:700;letter-spacing:.02em}
+  .badge-award svg{width:18px;height:18px;stroke:#f4f1e2}
+
+  /* ---------- ROOMS ---------- */
+  .rooms-head{text-align:center;max-width:640px;margin:0 auto 50px}
+  .rooms-head h2{font-size:clamp(2rem,3.6vw,3rem);color:var(--brown)}
+  .rooms-head h2 em{font-style:italic;color:var(--ochre-deep)}
+  .rooms-head p{margin-top:14px;color:#6b5844}
+  .rooms-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  .room{
+    background:var(--paper);border-radius:18px;overflow:hidden;
+    box-shadow:0 16px 34px -22px var(--shadow);
+    border:1px solid rgba(122,99,80,.1);
+    transition:.28s;position:relative;
+  }
+  .room:hover{transform:translateY(-6px);box-shadow:0 26px 46px -20px var(--shadow)}
+  .room .ph{position:relative;aspect-ratio:4/3;overflow:hidden}
+  .room .ph img{width:100%;height:100%;object-fit:cover;transition:.5s}
+  .room:hover .ph img{transform:scale(1.05)}
+  .room .swatch{position:absolute;top:14px;left:14px;width:26px;height:26px;border-radius:50%;border:3px solid #fdf8ee;box-shadow:0 3px 8px rgba(0,0,0,.25)}
+  .room .body{padding:20px 22px 24px}
+  .room .body h3{font-size:1.35rem;color:var(--brown);font-weight:600}
+  .room .body .type{font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ochre-deep);font-weight:700;margin-top:4px}
+  .room .body p{font-size:.9rem;color:#6b5844;margin-top:10px}
+  .amen{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .amen span{font-size:.74rem;background:var(--cream-deep);color:#5b4a3a;padding:4px 10px;border-radius:999px;font-weight:600}
+
+  /* ---------- MURA BAND ---------- */
+  .mura{position:relative;min-height:62vh;display:flex;align-items:center;justify-content:center;text-align:center;color:#fdf8ee}
+  .mura-bg{position:absolute;inset:0}
+  .mura-bg img{width:100%;height:100%;object-fit:cover}
+  .mura-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(58,41,29,.5),rgba(58,41,29,.68))}
+  .mura-content{position:relative;z-index:2;padding:0 26px}
+  .mura-content .kicker{color:#f2d9a8}
+  .mura h2{font-size:clamp(2.1rem,4.6vw,3.6rem);text-shadow:0 2px 20px rgba(40,26,15,.5);max-width:20ch;margin:0 auto}
+  .mura h2 em{font-style:italic;color:#f2d9a8}
+  .mura p{margin-top:20px;font-size:1.08rem;max-width:52ch;margin-left:auto;margin-right:auto;color:#f4ead9;text-shadow:0 2px 12px rgba(40,26,15,.5)}
+  .mura .figures{margin-top:34px;display:flex;gap:44px;justify-content:center;flex-wrap:wrap}
+  .mura .fig .n{font-family:'Fraunces',serif;font-size:2.2rem;color:#f2d9a8}
+  .mura .fig .l{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:#eaddc8}
+
+  /* ---------- SERVICES ---------- */
+  .services-head{text-align:center;max-width:620px;margin:0 auto 48px}
+  .services-head h2{font-size:clamp(2rem,3.4vw,2.9rem);color:var(--brown)}
+  .services-head h2 em{font-style:italic;color:var(--olive-deep)}
+  .services-head p{margin-top:14px;color:#6b5844}
+  .svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+  .svc{
+    background:var(--paper);border-radius:16px;padding:26px 22px;text-align:center;
+    box-shadow:0 12px 28px -20px var(--shadow);border:1px solid rgba(122,99,80,.1);
+    transition:.24s;
+  }
+  .svc:hover{transform:translateY(-4px);border-color:rgba(198,138,62,.4)}
+  .svc .ic{width:56px;height:56px;border-radius:16px;margin:0 auto 16px;display:grid;place-items:center;background:linear-gradient(140deg,var(--cream-deep),#f2e6d2)}
+  .svc .ic svg{width:28px;height:28px;stroke:var(--ochre-deep)}
+  .svc h4{font-family:'Fraunces',serif;font-size:1.12rem;color:var(--brown);font-weight:600;margin-bottom:6px}
+  .svc p{font-size:.88rem;color:#6b5844}
+  .svc-note{text-align:center;margin-top:28px;font-size:.9rem;color:var(--brown-soft);font-style:italic}
+
+  /* ---------- AI ASSISTANT ---------- */
+  .ai{background:linear-gradient(165deg,var(--brown) 0%,#33251a 100%);color:#f4ead9;position:relative;overflow:hidden}
+  .ai::before{content:"";position:absolute;top:-120px;right:-120px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(198,138,62,.28),transparent 70%)}
+  .ai-inner{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;position:relative;z-index:2}
+  .ai .kicker{color:#f2d9a8}
+  .ai h2{font-size:clamp(2rem,3.6vw,3rem);color:#fdf8ee}
+  .ai h2 em{font-style:italic;color:#f2d9a8}
+  .ai .aitxt p{margin-top:18px;color:#e7d6bf;font-size:1.04rem}
+  .ai-langs{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap}
+  .ai-langs span{background:rgba(253,248,238,.1);border:1px solid rgba(242,217,168,.35);padding:6px 14px;border-radius:999px;font-size:.82rem;font-weight:600}
+  /* chat widget */
+  .chat{
+    background:var(--paper);border-radius:22px;overflow:hidden;
+    box-shadow:0 30px 60px -22px rgba(0,0,0,.5);
+    max-width:420px;margin:0 auto;width:100%;
+  }
+  .chat-top{background:var(--olive);color:#f4f1e2;padding:15px 20px;display:flex;align-items:center;gap:12px}
+  .chat-top .av{width:40px;height:40px;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--ochre),var(--ochre-deep));display:grid;place-items:center;font-family:'Fraunces',serif;font-weight:600;color:#fff;font-size:1.1rem}
+  .chat-top .who{font-family:'Fraunces',serif;font-weight:600;font-size:1rem;line-height:1.1}
+  .chat-top .stat{font-size:.72rem;color:#dfe6c9;display:flex;align-items:center;gap:6px;margin-top:2px}
+  .chat-top .stat .live{width:7px;height:7px;border-radius:50%;background:#8fce6a;box-shadow:0 0 0 0 rgba(143,206,106,.7);animation:pulse 2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(143,206,106,.6)}70%{box-shadow:0 0 0 8px rgba(143,206,106,0)}100%{box-shadow:0 0 0 0 rgba(143,206,106,0)}}
+  .chat-body{padding:20px 18px;min-height:340px;display:flex;flex-direction:column;gap:12px;background:linear-gradient(180deg,#fbf6ec,#f4ecdd)}
+  .msg{max-width:80%;padding:11px 15px;border-radius:16px;font-size:.9rem;line-height:1.45;opacity:0;transform:translateY(10px);transition:.45s ease;position:relative}
+  .msg.show{opacity:1;transform:translateY(0)}
+  .msg .t{font-size:.66rem;opacity:.6;margin-top:5px;display:block}
+  .msg.guest{align-self:flex-end;background:var(--olive);color:#f4f1e2;border-bottom-right-radius:5px}
+  .msg.bot{align-self:flex-start;background:#fff;color:var(--ink);border:1px solid rgba(122,99,80,.14);border-bottom-left-radius:5px;box-shadow:0 3px 10px -6px var(--shadow)}
+  .typing{align-self:flex-start;background:#fff;border:1px solid rgba(122,99,80,.14);padding:12px 16px;border-radius:16px;border-bottom-left-radius:5px;display:none;gap:4px}
+  .typing.show{display:flex}
+  .typing span{width:7px;height:7px;border-radius:50%;background:var(--brown-soft);animation:bob 1.2s infinite}
+  .typing span:nth-child(2){animation-delay:.2s}
+  .typing span:nth-child(3){animation-delay:.4s}
+  @keyframes bob{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-5px);opacity:1}}
+  .chat-foot{padding:12px 16px;background:var(--paper);border-top:1px solid rgba(122,99,80,.12);display:flex;justify-content:center}
+  .replay{background:transparent;border:1.5px solid var(--ochre);color:var(--ochre-deep);font-family:'Nunito Sans';font-weight:700;font-size:.82rem;padding:8px 18px;border-radius:999px;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:7px}
+  .replay:hover{background:var(--ochre);color:#fff}
+  .replay svg{width:15px;height:15px}
+
+  /* ---------- CONTACT / FOOTER ---------- */
+  .contact{background:var(--cream-deep)}
+  .contact-inner{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+  .contact h2{font-size:clamp(2rem,3.4vw,2.8rem);color:var(--brown)}
+  .contact h2 em{font-style:italic;color:var(--ochre-deep)}
+  .contact p.intro{margin-top:16px;color:#5b4a3a}
+  .cc{display:flex;gap:14px;align-items:center;margin-top:20px}
+  .cc .ic{width:46px;height:46px;border-radius:14px;background:var(--paper);display:grid;place-items:center;flex:0 0 auto;box-shadow:0 6px 14px -8px var(--shadow)}
+  .cc .ic svg{width:22px;height:22px;stroke:var(--ochre-deep)}
+  .cc .lb{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--brown-soft)}
+  .cc .vl{font-family:'Fraunces',serif;font-size:1.15rem;color:var(--brown)}
+  .contact .imgcol img{border-radius:14px;width:100%;aspect-ratio:4/3;object-fit:cover;box-shadow:0 22px 44px -22px var(--shadow)}
+
+  footer{background:var(--brown);color:#e7d6bf;padding:52px 0 34px}
+  .foot-top{display:flex;justify-content:space-between;align-items:flex-start;gap:30px;flex-wrap:wrap;padding-bottom:28px;border-bottom:1px solid rgba(242,217,168,.18)}
+  .foot-brand{display:flex;gap:12px;align-items:center}
+  .foot-brand .mark{width:48px;height:48px;border-radius:50%;background:radial-gradient(circle at 35% 30%,var(--ochre),var(--ochre-deep));display:grid;place-items:center;font-family:'Fraunces',serif;font-size:1.4rem;color:#fff;font-weight:600}
+  .foot-brand .bt{font-family:'Fraunces',serif;font-size:1.3rem;color:#fdf8ee}
+  .foot-brand .bs{font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;color:#c9b596;margin-top:3px}
+  .foot-cols{display:flex;gap:60px;flex-wrap:wrap}
+  .foot-cols .col h5{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:#c9b596;margin-bottom:12px}
+  .foot-cols .col a,.foot-cols .col p{display:block;font-size:.9rem;color:#e7d6bf;margin-bottom:7px}
+  .foot-cols .col a:hover{color:#f2d9a8}
+  .credit{margin-top:26px;font-size:.84rem;color:#c9b596;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .credit .dd{width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,#00D4FF,#8B5CF6);display:inline-grid;place-items:center;font-size:.62rem;font-weight:800;color:#fff;font-family:'Nunito Sans'}
+
+  @media(max-width:980px){
+    .story,.authentic,.ai-inner,.contact-inner{grid-template-columns:1fr;gap:38px}
+    .authentic .imgcol{order:-1}
+    .detail-grid,.rooms-grid{grid-template-columns:repeat(2,1fr)}
+    .svc-grid{grid-template-columns:repeat(2,1fr)}
+  }
+  @media(max-width:860px){
+    nav.links{display:none}
+    .navcta .btn.ghost{display:none}
+  }
+  @media(max-width:620px){
+    section{padding:60px 0}
+    .detail-grid,.rooms-grid,.svc-grid{grid-template-columns:1fr}
+    .story .door .stamp{width:104px;height:104px;left:auto;right:-10px;bottom:-20px}
+    .hero{min-height:82vh}
+    .foot-cols{gap:34px}
+  }
+</style>
+</head>
+<body>
+
+<!-- DEMO BAR -->
+<div class="demobar">
+  <span class="dot">✦</span>
+  <span data-i18n="demobar"></span>
+  <div class="langtoggle">
+    <button data-lang="it" class="active" onclick="setLang('it')">IT</button>
+    <button data-lang="en" onclick="setLang('en')">EN</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="#" class="brand">
+      <span class="mark">A</span>
+      <span>
+        <div class="bt">B&amp;B Angelini</div>
+        <div class="bs" data-i18n="brandSub"></div>
+      </span>
+    </a>
+    <nav class="links">
+      <a href="#casa" data-i18n="navHome"></a>
+      <a href="#camere" data-i18n="navRooms"></a>
+      <a href="#mura" data-i18n="navWalls"></a>
+      <a href="#servizi" data-i18n="navServices"></a>
+      <a href="#assistente" data-i18n="navAssistant"></a>
+    </nav>
+    <div class="navcta">
+      <a href="#contatti" class="btn ghost" data-i18n="navContact"></a>
+      <a href="#contatti" class="btn" data-i18n="navBook"></a>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" style="padding:0">
+  <div class="hero-bg"><img src="assets/esterno.jpg" alt="La casa di famiglia B&B Angelini a Lucca"></div>
+  <div class="wrap hero-content">
+    <span class="hero-eyebrow"><span class="dotm"></span> <span data-i18n="heroEyebrow"></span></span>
+    <h1 data-i18n="heroTitle"></h1>
+    <p class="lead" data-i18n="heroLead"></p>
+    <div class="hero-actions">
+      <a href="#camere" class="btn" data-i18n="heroBtn1"></a>
+      <a href="#casa" class="btn ghost" data-i18n="heroBtn2"></a>
+    </div>
+  </div>
+</section>
+
+<!-- STORY / LA NOSTRA CASA -->
+<section id="casa">
+  <div class="wrap story">
+    <div class="door">
+      <img src="assets/porta.jpg" alt="La porta d'ingresso toscana del B&B Angelini">
+      <div class="stamp">
+        <span class="yr">1911</span>
+        <span class="lb" data-i18n="stampLabel"></span>
+      </div>
+    </div>
+    <div>
+      <div class="kicker" data-i18n="storyKicker"></div>
+      <h2 data-i18n="storyTitle"></h2>
+      <p data-i18n="storyP1"></p>
+      <p data-i18n="storyP2"></p>
+      <div class="sig">
+        <span data-i18n="storySig"></span>
+        <small data-i18n="storySigSub"></small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DETAIL CHIPS -->
+<section class="details" style="padding:44px 0">
+  <div class="wrap detail-grid">
+    <div class="detail">
+      <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V9l9-6 9 6v12"/><path d="M3 12h18"/><path d="M9 21v-6h6v6"/></svg></span>
+      <div><h4 data-i18n="d1t"></h4><p data-i18n="d1p"></p></div>
+    </div>
+    <div class="detail">
+      <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6"/><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V5a3 3 0 0 1 6 0v3"/></svg></span>
+      <div><h4 data-i18n="d2t"></h4><p data-i18n="d2p"></p></div>
+    </div>
+    <div class="detail">
+      <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M2 12h20"/><path d="M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18z"/></svg></span>
+      <div><h4 data-i18n="d3t"></h4><p data-i18n="d3p"></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- AUTHENTICITY / SALA -->
+<section>
+  <div class="wrap authentic">
+    <div class="imgcol">
+      <img src="assets/sala.jpg" alt="La sala comune con le foto d'epoca e gli attestati TripAdvisor">
+    </div>
+    <div>
+      <div class="kicker" data-i18n="authKicker"></div>
+      <h2 data-i18n="authTitle"></h2>
+      <p data-i18n="authP1"></p>
+      <p data-i18n="authP2"></p>
+      <div class="badge-award">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8"/><path d="M12 17v4"/><path d="M7 4h10v5a5 5 0 0 1-10 0V4z"/><path d="M17 5h3v2a3 3 0 0 1-3 3"/><path d="M7 5H4v2a3 3 0 0 0 3 3"/></svg>
+        <span data-i18n="authBadge"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROOMS -->
+<section id="camere" style="background:var(--cream-deep)">
+  <div class="wrap">
+    <div class="rooms-head">
+      <div class="kicker" data-i18n="roomsKicker"></div>
+      <h2 data-i18n="roomsTitle"></h2>
+      <p data-i18n="roomsSub"></p>
+    </div>
+    <div class="rooms-grid" id="roomsGrid"></div>
+  </div>
+</section>
+
+<!-- MURA BAND -->
+<section id="mura" class="mura" style="padding:0">
+  <div class="mura-bg"><img src="assets/mura.jpg" alt="Le mura rinascimentali di Lucca"></div>
+  <div class="mura-content">
+    <div class="kicker" data-i18n="muraKicker"></div>
+    <h2 data-i18n="muraTitle"></h2>
+    <p data-i18n="muraP"></p>
+    <div class="figures">
+      <div class="fig"><div class="n">600 m</div><div class="l" data-i18n="muraF1"></div></div>
+      <div class="fig"><div class="n">4,2 km</div><div class="l" data-i18n="muraF2"></div></div>
+      <div class="fig"><div class="n">1911</div><div class="l" data-i18n="muraF3"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="servizi">
+  <div class="wrap">
+    <div class="services-head">
+      <div class="kicker" data-i18n="svcKicker"></div>
+      <h2 data-i18n="svcTitle"></h2>
+      <p data-i18n="svcSub"></p>
+    </div>
+    <div class="svc-grid" id="svcGrid"></div>
+    <p class="svc-note" data-i18n="svcNote"></p>
+  </div>
+</section>
+
+<!-- AI ASSISTANT -->
+<section id="assistente" class="ai">
+  <div class="wrap ai-inner">
+    <div class="aitxt">
+      <div class="kicker" data-i18n="aiKicker"></div>
+      <h2 data-i18n="aiTitle"></h2>
+      <p data-i18n="aiP1"></p>
+      <p data-i18n="aiP2"></p>
+      <div class="ai-langs">
+        <span>🇮🇹 Italiano</span><span>🇬🇧 English</span><span>🇩🇪 Deutsch</span><span>🇫🇷 Français</span>
+      </div>
+    </div>
+    <div class="chat">
+      <div class="chat-top">
+        <span class="av">A</span>
+        <div>
+          <div class="who" data-i18n="chatWho"></div>
+          <div class="stat"><span class="live"></span> <span data-i18n="chatStat"></span></div>
+        </div>
+      </div>
+      <div class="chat-body" id="chatBody"></div>
+      <div class="chat-foot">
+        <button class="replay" onclick="playChat()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+          <span data-i18n="chatReplay"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contatti" class="contact">
+  <div class="wrap contact-inner">
+    <div>
+      <div class="kicker" data-i18n="contactKicker"></div>
+      <h2 data-i18n="contactTitle"></h2>
+      <p class="intro" data-i18n="contactIntro"></p>
+      <div class="cc">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span>
+        <div><div class="lb" data-i18n="ccPhone"></div><div class="vl">+39 328 052 1794</div></div>
+      </div>
+      <div class="cc">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg></span>
+        <div><div class="lb">Email</div><div class="vl">info@bbangelini.net</div></div>
+      </div>
+      <div class="cc">
+        <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+        <div><div class="lb" data-i18n="ccAddr"></div><div class="vl">Via Stefano Tofanelli, 151 — 55100 Lucca</div></div>
+      </div>
+      <a href="#" class="btn" style="margin-top:26px" data-i18n="contactBtn"></a>
+    </div>
+    <div class="imgcol">
+      <img src="assets/ingresso.jpg" alt="L'ingresso del B&B Angelini">
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <span class="mark">A</span>
+        <span>
+          <div class="bt">B&amp;B Angelini</div>
+          <div class="bs" data-i18n="brandSub"></div>
+        </span>
+      </div>
+      <div class="foot-cols">
+        <div class="col">
+          <h5 data-i18n="footVisit"></h5>
+          <p>Via Stefano Tofanelli, 151</p>
+          <p>55100 Lucca (LU) · Toscana</p>
+          <a href="#mura" data-i18n="footWalls"></a>
+        </div>
+        <div class="col">
+          <h5 data-i18n="footContactH"></h5>
+          <a href="#">+39 328 052 1794</a>
+          <a href="#">info@bbangelini.net</a>
+          <a href="#camere" data-i18n="navRooms"></a>
+        </div>
+      </div>
+    </div>
+    <div class="credit">
+      <span class="dd">D</span>
+      <span data-i18n="footCredit"></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ---------------- CONTENT DICTIONARY ---------------- */
+const rooms = [
+  {key:'blu',   img:'assets/camera-blu.jpg',   color:'#4f7a99'},
+  {key:'iris',  img:'assets/camera-iris.jpg',  color:'#8a76b8'},
+  {key:'pesca', img:'assets/camera-pesca.jpg', color:'#e0a07e'},
+  {key:'rosa',  img:'assets/camera-rosa.jpg',  color:'#d18aa0'},
+  {key:'verde', img:'assets/camera-verde.jpg', color:'#7b9a5c'}
+];
+
+const I18N = {
+  it:{
+    demobar:'Anteprima costruita da Domani AI — non è ancora online, ogni dettaglio è personalizzabile.',
+    brandSub:'Lucca · dal 1911',
+    navHome:'La casa', navRooms:'Le camere', navWalls:'Le mura', navServices:'Servizi', navAssistant:'Assistente KI',
+    navContact:'Contatti', navBook:'Prenota',
+    heroEyebrow:'Una casa di famiglia a due passi dalle mura',
+    heroTitle:'Benvenuti a casa <em>Angelini</em>',
+    heroLead:'Siamo una famiglia di Lucca. Vi apriamo la porta della casa costruita dai nostri bisnonni nel 1911 — restaurata con cura, ancora piena di calore.',
+    heroBtn1:'Scopri le camere', heroBtn2:'La nostra storia',
+    stampLabel:'la nostra casa',
+    storyKicker:'La nostra casa',
+    storyTitle:'Entrate pure. <em>Vi aspettavamo.</em>',
+    storyP1:'Questa casa la costruirono i nostri bisnonni nel 1911. È cresciuta con la nostra famiglia, e da qualche anno l’abbiamo restaurata per aprirla a chi arriva a Lucca — mantenendo l’anima toscana di sempre.',
+    storyP2:'I soffitti a travicelli e mezzane, i pavimenti in cotto e in graniglia: nulla è finto, nulla è di serie. Vi accogliamo di persona, perché per noi non siete ospiti di un albergo — siete ospiti di casa nostra.',
+    storySig:'La famiglia Angelini',
+    storySigSub:'vi accoglie di persona',
+    d1t:'Costruita nel 1911', d1p:'Casa di famiglia dei bisnonni, restaurata di recente con rispetto.',
+    d2t:'Cotto & travicelli', d2p:'Soffitti a mezzane, pavimenti in cotto e graniglia: la vera Toscana.',
+    d3t:'A 600 metri dal centro', d3p:'Il centro storico e le mura di Lucca a pochi passi a piedi.',
+    authKicker:'Autenticità',
+    authTitle:'Anni di ospiti <em>felici</em>, alle nostre pareti',
+    authP1:'Nel nostro salotto trovate le foto d’epoca della famiglia e gli attestati di eccellenza appesi alla parete. Non li mettiamo lì per vantarci — raccontano semplicemente le persone che sono passate di qui e sono tornate.',
+    authP2:'È un posto dove ci si ferma volentieri: un caffè, quattro chiacchiere, un consiglio su dove mangiare bene a Lucca. Come si fa in una casa vera.',
+    authBadge:'Riconoscimenti di eccellenza TripAdvisor',
+    roomsKicker:'Le camere',
+    roomsTitle:'Ogni camera ha un <em>nome e un colore</em>',
+    roomsSub:'Cinque camere spaziose e luminose, ognuna con il suo carattere e il suo bagno privato. Le abbiamo chiamate con i colori che le abitano.',
+    muraKicker:'La posizione',
+    muraTitle:'A <em>600 metri</em> dalle mura di Lucca',
+    muraP:'Uscite dalla porta e in pochi minuti a piedi siete sulle celebri mura rinascimentali: il giro completo, tra alberi e panorami, è la passeggiata più bella della città.',
+    muraF1:'dalle mura', muraF2:'giro completo a piedi', muraF3:'la nostra casa',
+    svcKicker:'I servizi',
+    svcTitle:'Tutto ciò che serve, <em>senza pensieri</em>',
+    svcSub:'Piccole comodità che rendono il soggiorno leggero — pensate come le penseremmo per un amico che viene a trovarci.',
+    svcNote:'La colazione è inclusa ed è servita nel bar convenzionato a due passi dalla casa.',
+    aiKicker:'Novità · Assistente KI 24 ore su 24',
+    aiTitle:'Un ospite scrive <em>alle 23</em>. Chi risponde?',
+    aiP1:'Un ospite inglese vi scrive a tarda sera, quando siete già a letto. Con l’assistente KI riceve subito una risposta nella sua lingua — chiara, gentile, e con la prenotazione diretta già pronta.',
+    aiP2:'Nessuna commissione a piattaforme esterne, nessuna richiesta persa nella notte. Parla italiano, inglese, tedesco e francese, 24 ore su 24.',
+    chatWho:'Assistente B&B Angelini', chatStat:'Online · risponde subito',
+    chatReplay:'Rivedi la conversazione',
+    contactKicker:'Contatti',
+    contactTitle:'Vi aspettiamo <em>a Lucca</em>',
+    contactIntro:'Scriveteci o chiamateci: rispondiamo noi, di persona. Saremo felici di raccontarvi la casa e di trovare la camera giusta per voi.',
+    ccPhone:'Telefono', ccAddr:'Indirizzo',
+    contactBtn:'Richiedi disponibilità',
+    footVisit:'Vieni a trovarci', footWalls:'A 600 m dalle mura',
+    footContactH:'Contatti',
+    footCredit:'Anteprima realizzata da Domani AI · sito + assistente KI · ogni dettaglio è personalizzabile'
+  },
+  en:{
+    demobar:'Preview built by Domani AI — not live yet, every detail is customizable.',
+    brandSub:'Lucca · since 1911',
+    navHome:'The house', navRooms:'The rooms', navWalls:'The walls', navServices:'Services', navAssistant:'AI Assistant',
+    navContact:'Contact', navBook:'Book',
+    heroEyebrow:'A family home, a stone’s throw from the walls',
+    heroTitle:'Welcome home to the <em>Angelini</em>',
+    heroLead:'We’re a Lucca family. We open the door of the house our great-grandparents built in 1911 — lovingly restored, and still full of warmth.',
+    heroBtn1:'See the rooms', heroBtn2:'Our story',
+    stampLabel:'our home',
+    storyKicker:'Our home',
+    storyTitle:'Come on in. <em>We’ve been expecting you.</em>',
+    storyP1:'Our great-grandparents built this house in 1911. It grew up with our family, and a few years ago we restored it to welcome travellers coming to Lucca — keeping its Tuscan soul just as it always was.',
+    storyP2:'The wood-beam ceilings, the terracotta and terrazzo floors: nothing here is fake, nothing off-the-shelf. We welcome you in person, because to us you’re not hotel guests — you’re guests in our home.',
+    storySig:'The Angelini family',
+    storySigSub:'welcomes you in person',
+    d1t:'Built in 1911', d1p:'Our great-grandparents’ family home, recently and respectfully restored.',
+    d2t:'Terracotta & beams', d2p:'Wood-beam ceilings, terracotta and terrazzo floors: true Tuscany.',
+    d3t:'600 m from the centre', d3p:'Lucca’s historic centre and its walls, just a short walk away.',
+    authKicker:'Authenticity',
+    authTitle:'Years of <em>happy guests</em>, on our walls',
+    authP1:'In our common room you’ll find the family’s vintage photographs and the excellence certificates hanging on the wall. We don’t put them there to boast — they simply tell the story of the people who passed through and came back.',
+    authP2:'It’s a place where you want to linger: a coffee, a chat, a tip on where to eat well in Lucca. The way you would in a real home.',
+    authBadge:'TripAdvisor excellence awards',
+    roomsKicker:'The rooms',
+    roomsTitle:'Every room has a <em>name and a colour</em>',
+    roomsSub:'Five spacious, bright rooms, each with its own character and its own private bathroom. We named them after the colours that live in them.',
+    muraKicker:'The location',
+    muraTitle:'<em>600 metres</em> from the walls of Lucca',
+    muraP:'Step out of the door and in a few minutes on foot you’re on the famous Renaissance walls: the full loop, among the trees and views, is the loveliest walk in the city.',
+    muraF1:'from the walls', muraF2:'full loop on foot', muraF3:'our home',
+    svcKicker:'The services',
+    svcTitle:'Everything you need, <em>with no fuss</em>',
+    svcSub:'Small comforts that make the stay feel light — thought through the way we’d think of them for a friend coming to visit.',
+    svcNote:'Breakfast is included and served at our partner café two steps from the house.',
+    aiKicker:'New · 24/7 AI Assistant',
+    aiTitle:'A guest writes <em>at 11pm</em>. Who answers?',
+    aiP1:'An English-speaking guest writes late at night, when you’re already in bed. With the AI assistant they get an instant reply in their own language — clear, kind, and with the direct booking already prepared.',
+    aiP2:'No commission to outside platforms, no request lost overnight. It speaks Italian, English, German and French, around the clock.',
+    chatWho:'B&B Angelini Assistant', chatStat:'Online · replies instantly',
+    chatReplay:'Replay the conversation',
+    contactKicker:'Contact',
+    contactTitle:'We’ll be waiting <em>in Lucca</em>',
+    contactIntro:'Write or call us: it’s us who answer, in person. We’d love to tell you about the house and find the right room for you.',
+    ccPhone:'Phone', ccAddr:'Address',
+    contactBtn:'Check availability',
+    footVisit:'Come and see us', footWalls:'600 m from the walls',
+    footContactH:'Contact',
+    footCredit:'Preview built by Domani AI · website + AI assistant · every detail is customizable'
+  }
+};
+
+const ROOMS_I18N = {
+  it:{
+    blu:{name:'Camera Blu', type:'Matrimoniale', desc:'Un blu profondo e riposante, per due. Bagno privato, aria condizionata, luce del mattino.'},
+    iris:{name:'Camera Iris', type:'Tripla', desc:'Ampia e delicata come il fiore che porta il nome. Perfetta per una piccola famiglia.'},
+    pesca:{name:'Camera Pesca', type:'Matrimoniale', desc:'Tonalità calde e avvolgenti, un rifugio luminoso a due passi dalle mura.'},
+    rosa:{name:'Camera Rosa', type:'Quadrupla', desc:'La più spaziosa: quattro posti letto, tanto respiro e un tocco romantico.'},
+    verde:{name:'Camera Verde', type:'Matrimoniale', desc:'Fresca e tranquilla, il verde della campagna toscana portato in casa.'}
+  },
+  en:{
+    blu:{name:'Camera Blu', type:'Double', desc:'A deep, restful blue, for two. Private bathroom, air-conditioning, morning light.'},
+    iris:{name:'Camera Iris', type:'Triple', desc:'Spacious and gentle, like the flower it’s named after. Perfect for a small family.'},
+    pesca:{name:'Camera Pesca', type:'Double', desc:'Warm, enveloping peach tones — a bright retreat two steps from the walls.'},
+    rosa:{name:'Camera Rosa', type:'Quad', desc:'The largest: four beds, plenty of room and a romantic touch.'},
+    verde:{name:'Camera Verde', type:'Double', desc:'Cool and calm, the green of the Tuscan countryside brought indoors.'}
+  }
+};
+
+const AMEN_I18N = {
+  it:['Bagno privato','Aria condizionata','WiFi gratuito','Parcheggio incluso'],
+  en:['Private bathroom','Air-conditioning','Free WiFi','Parking included']
+};
+
+const SERVICES = [
+  {ic:'wifi', it:{t:'WiFi gratuito',p:'In tutta la casa, veloce e sempre attivo.'}, en:{t:'Free WiFi',p:'Throughout the house, fast and always on.'}},
+  {ic:'coffee', it:{t:'Colazione inclusa',p:'Servita nel bar convenzionato a due passi.'}, en:{t:'Breakfast included',p:'Served at our partner café two steps away.'}},
+  {ic:'car', it:{t:'Parcheggio riservato',p:'Privato, proprio davanti alla casa.'}, en:{t:'Reserved parking',p:'Private, right in front of the house.'}},
+  {ic:'ac', it:{t:'Aria condizionata',p:'In tutte le camere, per ogni stagione.'}, en:{t:'Air-conditioning',p:'In every room, for every season.'}},
+  {ic:'paw', it:{t:'Pet-friendly',p:'I vostri amici a quattro zampe sono i benvenuti.'}, en:{t:'Pet-friendly',p:'Your four-legged friends are welcome too.'}},
+  {ic:'bag', it:{t:'Deposito bagagli',p:'Arrivate presto o ripartite tardi, ci pensiamo noi.'}, en:{t:'Luggage deposit',p:'Arrive early or leave late — we’ll keep them safe.'}},
+  {ic:'broom', it:{t:'Pulizia giornaliera',p:'La casa sempre in ordine, ogni giorno.'}, en:{t:'Daily cleaning',p:'The house kept spotless, every day.'}},
+  {ic:'map', it:{t:'Info turistiche',p:'Consigli veri su cosa vedere e dove mangiare.'}, en:{t:'Tourist info',p:'Real tips on what to see and where to eat.'}}
+];
+
+const SVG_ICONS = {
+  wifi:'<path d="M5 12.5a10 10 0 0 1 14 0"/><path d="M8.5 16a5 5 0 0 1 7 0"/><circle cx="12" cy="19" r="1"/><path d="M2 9a15 15 0 0 1 20 0"/>',
+  coffee:'<path d="M17 8h1a4 4 0 0 1 0 8h-1"/><path d="M3 8h14v6a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V8z"/><path d="M6 2v2M10 2v2M14 2v2"/>',
+  car:'<path d="M5 17h14l-1.5-6.5a2 2 0 0 0-1.9-1.5H8.4a2 2 0 0 0-1.9 1.5L5 17z"/><path d="M5 17v2M19 17v2"/><circle cx="8" cy="17" r="1.4"/><circle cx="16" cy="17" r="1.4"/>',
+  ac:'<rect x="3" y="4" width="18" height="8" rx="2"/><path d="M6 8h.01M9 8h.01"/><path d="M7 16v2M12 16v3M17 16v2"/>',
+  paw:'<circle cx="8" cy="8" r="1.6"/><circle cx="16" cy="8" r="1.6"/><circle cx="5" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/><path d="M12 13c-2.5 0-4.5 2-4.5 4a2.5 2.5 0 0 0 2.5 2.5c1 0 1.5-.5 2-.5s1 .5 2 .5A2.5 2.5 0 0 0 16.5 17c0-2-2-4-4.5-4z"/>',
+  bag:'<path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>',
+  broom:'<path d="M13 4 8.5 8.5"/><path d="m11 10 3 3"/><path d="M8 13c-1.5 1.5-3 5-3 7h9c0-2-1.5-5.5-3-7l-3-1z"/>',
+  map:'<path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/>'
+};
+
+/* ---------------- CHAT SCRIPTS ---------------- */
+const CHAT_SCRIPTS = {
+  it:[
+    {who:'guest',t:'23:14',txt:'Buonasera, avete una camera matrimoniale per il prossimo weekend? Il parcheggio è incluso?'},
+    {who:'bot',txt:'Buonasera! Sì: la Camera Blu (matrimoniale) è libera da venerdì a domenica. Bagno privato, aria condizionata e parcheggio riservato proprio davanti, incluso.'},
+    {who:'bot',txt:'La colazione è inclusa, servita nel bar convenzionato a due passi. Vuole che la blocchi? Posso confermarle la prenotazione diretta ora — senza commissioni.'},
+    {who:'guest',t:'23:15',txt:'Perfetto, la prendo!'}
+  ],
+  en:[
+    {who:'guest',t:'11:14 PM',txt:'Good evening, do you have a double room for next weekend? Is parking included?'},
+    {who:'bot',txt:'Good evening! Yes — our Camera Blu (double) is free Friday to Sunday. Private bathroom, air-conditioning and reserved parking right in front, included.'},
+    {who:'bot',txt:'Breakfast is included, served at our partner bar two steps away. Shall I hold it for you? I can confirm a direct booking right now — no commission.'},
+    {who:'guest',t:'11:15 PM',txt:"Perfect, I'll take it!"}
+  ]
+};
+
+/* ---------------- RENDER ---------------- */
+let currentLang='it';
+
+function renderRooms(){
+  const grid=document.getElementById('roomsGrid');
+  grid.innerHTML='';
+  const r18=ROOMS_I18N[currentLang];
+  const amen=AMEN_I18N[currentLang];
+  rooms.forEach(r=>{
+    const info=r18[r.key];
+    const el=document.createElement('div');
+    el.className='room';
+    el.innerHTML=`
+      <div class="ph">
+        <span class="swatch" style="background:${r.color}"></span>
+        <img src="${r.img}" alt="${info.name}">
+      </div>
+      <div class="body">
+        <h3>${info.name}</h3>
+        <div class="type">${info.type}</div>
+        <p>${info.desc}</p>
+        <div class="amen">${amen.map(a=>`<span>${a}</span>`).join('')}</div>
+      </div>`;
+    grid.appendChild(el);
+  });
+}
+
+function renderServices(){
+  const grid=document.getElementById('svcGrid');
+  grid.innerHTML='';
+  SERVICES.forEach(s=>{
+    const info=s[currentLang];
+    const el=document.createElement('div');
+    el.className='svc';
+    el.innerHTML=`
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${SVG_ICONS[s.ic]}</svg></div>
+      <h4>${info.t}</h4>
+      <p>${info.p}</p>`;
+    grid.appendChild(el);
+  });
+}
+
+function applyI18n(){
+  const dict=I18N[currentLang];
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key=el.getAttribute('data-i18n');
+    if(dict[key]!==undefined) el.innerHTML=dict[key];
+  });
+  document.documentElement.lang=currentLang;
+}
+
+function setLang(lang){
+  if(lang===currentLang) {return;}
+  currentLang=lang;
+  document.querySelectorAll('.langtoggle button').forEach(b=>{
+    b.classList.toggle('active', b.getAttribute('data-lang')===lang);
+  });
+  applyI18n();
+  renderRooms();
+  renderServices();
+  playChat();
+}
+
+/* ---------------- CHAT ANIMATION ---------------- */
+let chatTimers=[];
+function clearChat(){ chatTimers.forEach(t=>clearTimeout(t)); chatTimers=[]; }
+
+function playChat(){
+  clearChat();
+  const body=document.getElementById('chatBody');
+  body.innerHTML='';
+  const script=CHAT_SCRIPTS[currentLang];
+  let delay=350;
+  script.forEach((m,i)=>{
+    if(m.who==='bot'){
+      // show typing indicator, then message
+      chatTimers.push(setTimeout(()=>{
+        const typing=document.createElement('div');
+        typing.className='typing show';
+        typing.id='typing';
+        typing.innerHTML='<span></span><span></span><span></span>';
+        body.appendChild(typing);
+        body.scrollTop=body.scrollHeight;
+      }, delay));
+      delay+=900;
+      chatTimers.push(setTimeout(()=>{
+        const tp=document.getElementById('typing');
+        if(tp) tp.remove();
+        appendMsg(body,m);
+      }, delay));
+      delay+=550;
+    } else {
+      chatTimers.push(setTimeout(()=>{ appendMsg(body,m); }, delay));
+      delay+=900;
+    }
+  });
+}
+
+function appendMsg(body,m){
+  const el=document.createElement('div');
+  el.className='msg '+(m.who==='bot'?'bot':'guest');
+  el.innerHTML=`${m.txt}${m.t?`<span class="t">${m.t}</span>`:''}`;
+  body.appendChild(el);
+  requestAnimationFrame(()=>{ requestAnimationFrame(()=>el.classList.add('show')); });
+  body.scrollTop=body.scrollHeight;
+}
+
+/* ---------------- INIT ---------------- */
+applyI18n();
+renderRooms();
+renderServices();
+
+// auto-play chat when it scrolls into view (first time)
+let chatPlayed=false;
+const aiSection=document.getElementById('assistente');
+const io=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting && !chatPlayed){
+      chatPlayed=true;
+      playChat();
+    }
+  });
+},{threshold:.35});
+io.observe(aiSection);
+
+// also kick a first play shortly after load so it's ready if the widget is near top
+window.addEventListener('load',()=>{
+  setTimeout(()=>{ if(!chatPlayed){ playChat(); chatPlayed=true; } }, 1200);
+});
+</script>
+</body>
+</html>
